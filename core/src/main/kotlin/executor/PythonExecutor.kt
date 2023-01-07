@@ -3,9 +3,10 @@ package executor
 import Grade
 import Problem
 import Grades
+import Solution
 import java.util.concurrent.TimeUnit
 
-class PythonExecutor(private val scriptPath: String) : Executor {
+class PythonExecutor(private val solution: Solution) : Executor {
 
     override fun execute(problem: Problem): Grades {
         val grades = mutableListOf<Grade>()
@@ -21,7 +22,7 @@ class PythonExecutor(private val scriptPath: String) : Executor {
     }
 
     private fun createProcess(): Process {
-        return Runtime.getRuntime().exec("python3 $scriptPath")
+        return Runtime.getRuntime().exec("python3 ${solution.path}")
     }
 }
 
