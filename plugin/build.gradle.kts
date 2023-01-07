@@ -1,14 +1,14 @@
 plugins {
-//    id("java")
-//    id("org.jetbrains.kotlin.jvm") version "1.7.20"
+    id("org.jetbrains.kotlin.jvm") version "1.7.20"
     id("org.jetbrains.intellij") version "1.9.0"
 }
 
 group = "io.github.cjlee38"
 version = "1.0-SNAPSHOT"
-//repositories {
-//    mavenCentral()
-//}
+
+repositories {
+    mavenCentral()
+}
 
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
