@@ -1,10 +1,10 @@
-package request
+package io.github.cjlee38.bojsampletester.request
 
-import Problem
-import Sample
+import io.github.cjlee38.bojsampletester.Problem
+import io.github.cjlee38.bojsampletester.Sample
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import utils.toMillis
+import io.github.cjlee38.bojsampletester.utils.toMillis
 
 
 class JsoupRequestClient : RequestClient {

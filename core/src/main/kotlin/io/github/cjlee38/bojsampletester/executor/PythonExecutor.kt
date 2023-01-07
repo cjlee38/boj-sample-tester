@@ -1,9 +1,9 @@
-package executor
+package io.github.cjlee38.bojsampletester.executor
 
-import Grade
-import Problem
-import Grades
-import Solution
+import io.github.cjlee38.bojsampletester.Grade
+import io.github.cjlee38.bojsampletester.Problem
+import io.github.cjlee38.bojsampletester.Grades
+import io.github.cjlee38.bojsampletester.Solution
 import java.util.concurrent.TimeUnit
 
 class PythonExecutor(private val solution: Solution) : Executor {

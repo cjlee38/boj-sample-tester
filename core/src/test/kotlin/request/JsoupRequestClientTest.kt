@@ -1,6 +1,7 @@
 package request
 
 
+import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

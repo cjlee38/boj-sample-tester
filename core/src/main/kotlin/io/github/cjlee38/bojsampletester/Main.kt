@@ -1,8 +1,6 @@
-import executor.PythonExecutor
-import request.JsoupRequestClient
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.util.stream.Collectors
+package io.github.cjlee38.bojsampletester
+
+import io.github.cjlee38.bojsampletester.executor.PythonExecutor
 
 fun main(args: Array<String>) {
 //    val client = JsoupRequestClient()
