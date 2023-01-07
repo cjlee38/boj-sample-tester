@@ -1,4 +1,4 @@
-package request
+package io.github.cjlee38.bojsampletester.request
 
 
 import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
