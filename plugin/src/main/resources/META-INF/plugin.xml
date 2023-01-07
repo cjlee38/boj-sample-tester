@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.example.boj-sample-tester-plugin</id>
+    <id>io.github.cjlee38.plugin</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Boj-sample-tester-plugin</name>
+    <name>Plugin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
@@ -28,13 +28,8 @@
 
     </extensions>
     <actions>
-        <action id="BojSampleTester.Test" class="com.example.bojsampletesterplugin.Test" text="Test"/>
-    </actions>
-
-    <actions>
-        <group id="top" text="_My Top Menu">
-            <add-to-group group-id="MainMenu" anchor="last"  />
-            <action id="sub" class="action.TopMenu" text="Top Sub Menu" />
-        </group>
+        <action id="BojSampleTester.executor" class="io.github.cjlee38.plugin.ExecutionAction" text="executor">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt Y"/>
+        </action>
     </actions>
 </idea-plugin>

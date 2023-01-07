@@ -1,1 +1,0 @@
-rootProject.name = "boj-sample-tester-plugin"
