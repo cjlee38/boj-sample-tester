@@ -2,12 +2,12 @@ package executor
 
 import Grade
 import Problem
-import Solution
+import Grades
 import java.util.concurrent.TimeUnit
 
 class PythonExecutor(private val scriptPath: String) : Executor {
 
-    override fun execute(problem: Problem): Solution {
+    override fun execute(problem: Problem): Grades {
         val grades = mutableListOf<Grade>()
         for (sample in problem.samples) {
             val process = createProcess()
@@ -17,7 +17,7 @@ class PythonExecutor(private val scriptPath: String) : Executor {
             val isCorrect = read.trim() == sample.output.trim()
             grades.add(Grade(isCorrect))
         }
-        return Solution(grades)
+        return Grades(grades)
     }
 
     private fun createProcess(): Process {

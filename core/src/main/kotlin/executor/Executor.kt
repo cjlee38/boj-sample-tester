@@ -1,8 +1,8 @@
 package executor
 
 import Problem
-import Solution
+import Grades
 
 interface Executor {
-    fun execute(problem: Problem): Solution
+    fun execute(problem: Problem): Grades
 }
