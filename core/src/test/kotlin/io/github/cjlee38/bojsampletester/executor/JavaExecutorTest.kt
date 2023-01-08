@@ -6,6 +6,7 @@ import io.github.cjlee38.bojsampletester.Sample
 import io.github.cjlee38.bojsampletester.Solution
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forAll
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
 class JavaExecutorTest : StringSpec({
@@ -28,6 +29,6 @@ class JavaExecutorTest : StringSpec({
                 )
             )
         )
-        grades.grades.forAll { it shouldBe Grade(true) }
+        grades.grades.forAll { it.isCorrect.shouldBeTrue() }
     }
 })

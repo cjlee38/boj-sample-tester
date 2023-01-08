@@ -11,7 +11,7 @@ class JavaExecutor(private val solution: Solution) : Executor {
         val engine = ProcessEngine()
         val grades = problem.samples
             .map {
-                val actual = engine.run("python3 " + solution.path, it.input, problem.time)
+                val actual = engine.run("java " + solution.path, it.input, problem.time)
                 Grade(it, actual)
             }
         return Grades(grades)
