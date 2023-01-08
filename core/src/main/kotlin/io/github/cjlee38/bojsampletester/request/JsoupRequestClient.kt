@@ -2,9 +2,9 @@ package io.github.cjlee38.bojsampletester.request
 
 import io.github.cjlee38.bojsampletester.Problem
 import io.github.cjlee38.bojsampletester.Sample
+import io.github.cjlee38.bojsampletester.utils.toMillis
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import io.github.cjlee38.bojsampletester.utils.toMillis
 
 
 class JsoupRequestClient : RequestClient {
