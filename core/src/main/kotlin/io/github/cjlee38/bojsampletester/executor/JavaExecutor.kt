@@ -9,12 +9,11 @@ import io.github.cjlee38.bojsampletester.executor.engine.ProcessEngine
 class JavaExecutor(private val solution: Solution) : Executor {
     override fun execute(problem: Problem): Grades {
         val engine = ProcessEngine()
-        val grades = mutableListOf<Grade>()
-        for (sample in problem.samples) {
-            val output = engine.run("java " + solution.path, sample.input, problem.time)
-            val isCorrect = output.trim() == sample.output.trim()
-            grades.add(Grade(isCorrect))
-        }
+        val grades = problem.samples
+            .map {
+                val actual = engine.run("python3 " + solution.path, it.input, problem.time)
+                Grade(it, actual)
+            }
         return Grades(grades)
     }
 }
