@@ -1,11 +1,10 @@
 package io.github.cjlee38.bojsampletester.request
 
 
-import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-class JsoupRequestClientTest : StringSpec({
+class RequestClientTest : StringSpec({
 
     "request problem".config(enabled = false) {
         val client = JsoupRequestClient()

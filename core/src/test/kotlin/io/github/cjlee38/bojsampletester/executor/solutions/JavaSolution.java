@@ -1,4 +1,4 @@
-package io.github.cjlee38.bojsampletester.executor;
+package io.github.cjlee38.bojsampletester.executor.solutions;
 
 import java.util.Scanner;
 

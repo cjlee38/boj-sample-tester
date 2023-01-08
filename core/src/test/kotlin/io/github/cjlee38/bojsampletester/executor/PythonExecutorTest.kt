@@ -8,13 +8,12 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forAll
 import io.kotest.matchers.shouldBe
 
-class JavaExecutorTest : StringSpec({
-
-    "test" {
-        val executor = JavaExecutor(
+class PythonExecutorTest : StringSpec({
+    "run python" {
+        val executor = PythonExecutor(
             Solution(
-                "/Users/cjlee/Desktop/workspace/boj-sample-tester/core/src/test/kotlin/io/github/cjlee38/bojsampletester/executor/solutions/JavaSolution.java",
-                ""
+                path = "/Users/cjlee/Desktop/workspace/boj-sample-tester/core/src/test/kotlin/io/github/cjlee38/bojsampletester/executor/solutions/pythonSolution.py",
+                code = ""
             )
         )
         val grades = executor.execute(
@@ -24,7 +23,7 @@ class JavaExecutorTest : StringSpec({
                 listOf(
                     Sample("1 2", "3"),
                     Sample("100 200", "300"),
-                    Sample("2147483647 1", "-2147483648")
+                    Sample("2147483647 1", "2147483648")
                 )
             )
         )
