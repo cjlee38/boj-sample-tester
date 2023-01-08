@@ -49,6 +49,9 @@ tasks {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
 
+    runIde {
+        autoReloadPlugins.set(true)
+    }
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
