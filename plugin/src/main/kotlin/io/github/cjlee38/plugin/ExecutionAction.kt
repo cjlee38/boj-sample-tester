@@ -5,6 +5,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys.EDITOR
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys.VIRTUAL_FILE
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.wm.RegisterToolWindowTask
+import com.intellij.openapi.wm.ToolWindowManager
 import io.github.cjlee38.bojsampletester.SampleTester
 import io.github.cjlee38.bojsampletester.Solution
 
@@ -21,6 +23,10 @@ class ExecutionAction : AnAction() {
         val solution = Solution(path, text)
         val grades = SampleTester().run(solution, problemNumber)
         println("grades = ${grades}")
+
+        val task = RegisterToolWindowTask("hello window task", contentFactory = MyToolWindowFactory())
+        ToolWindowManager.getInstance(actionEvent.project!!).registerToolWindow(task)
+        println("done")
     }
 
     private fun inputProblemNumber() =

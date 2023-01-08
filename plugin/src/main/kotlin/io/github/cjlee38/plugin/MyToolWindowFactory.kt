@@ -11,13 +11,6 @@ import com.intellij.ui.content.ContentFactory
 
 class MyToolWindowFactory: ToolWindowFactory {
 
-    /*
-    //        val registerToolWindowTaskBuilder = RegisterToolWindowTaskBuilder()
-//        registerToolWindowTaskBuilder.contentFactory = ToolWindowFactory({project, toolWindow ->  toolWindow.set})
-        ToolWindowManager.getInstance(actionEvent.project!!).registerToolWindow("hello window", { println("hello tool")})
-        println("done")
-
-     */
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val myToolWindow = MyToolWindow(toolWindow)
         val contentFactory = ContentFactory.SERVICE.getInstance()
