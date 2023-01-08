@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 
 class JavaExecutorTest : StringSpec({
 
-    "test" {
+    "run java code" {
         val executor = JavaExecutor(
             Solution(
                 "/Users/cjlee/Desktop/workspace/boj-sample-tester/core/src/test/kotlin/io/github/cjlee38/bojsampletester/executor/solutions/JavaSolution.java",
