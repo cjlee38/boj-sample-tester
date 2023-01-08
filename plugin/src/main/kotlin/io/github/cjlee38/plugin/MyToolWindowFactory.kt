@@ -7,9 +7,7 @@ import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 
 
-
-
-class MyToolWindowFactory: ToolWindowFactory {
+class MyToolWindowFactory : ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val myToolWindow = MyToolWindow(toolWindow)
