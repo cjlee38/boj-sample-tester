@@ -25,8 +25,10 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <toolWindow id="Sample Calendar" secondary="true" icon="AllIcons.General.Modified" anchor="right"
+                    factoryClass="io.github.cjlee38.plugin.MyToolWindowFactory"/>
     </extensions>
+
     <actions>
         <action id="BojSampleTester.executor" class="io.github.cjlee38.plugin.ExecutionAction" text="executor">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt Y"/>
