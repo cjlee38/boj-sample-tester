@@ -3,11 +3,11 @@ package io.github.cjlee38.bojsampletester.executor.engine
 import java.util.concurrent.TimeUnit
 
 class ProcessEngine {
-    fun run(command: String, input: String, timeout: Long = 1L): String {
+    fun run(command: String, input: String, timeout: Long = 1000L): String {
         val process = createProcess(command)
         process.write(input)
-        process.waitFor(timeout, TimeUnit.SECONDS)
-        process.throwOnError()
+        val isExited = process.waitFor(timeout, TimeUnit.MILLISECONDS)
+        process.throwOnError(isExited)
         return process.read()
     }
 
@@ -25,8 +25,8 @@ class ProcessEngine {
         return String(inputStream.readAllBytes())
     }
 
-    private fun Process.throwOnError() {
-        if (exitValue() != 0) {
+    private fun Process.throwOnError(isExited: Boolean) {
+        if (!isExited or (exitValue() != 0)) {
             throw IllegalArgumentException("fails on process execution : ${exitValue()}")
         }
     }
