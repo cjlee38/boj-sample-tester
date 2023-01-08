@@ -1,37 +1,21 @@
 package io.github.cjlee38.bojsampletester.executor
 
 import io.github.cjlee38.bojsampletester.Grade
-import io.github.cjlee38.bojsampletester.Problem
 import io.github.cjlee38.bojsampletester.Grades
+import io.github.cjlee38.bojsampletester.Problem
 import io.github.cjlee38.bojsampletester.Solution
-import java.util.concurrent.TimeUnit
+import io.github.cjlee38.bojsampletester.executor.engine.ProcessEngine
 
 class PythonExecutor(private val solution: Solution) : Executor {
 
     override fun execute(problem: Problem): Grades {
+        val engine = ProcessEngine()
         val grades = mutableListOf<Grade>()
         for (sample in problem.samples) {
-            val process = createProcess()
-            process.write(sample.input)
-            process.waitFor(problem.time, TimeUnit.SECONDS)
-            val read = process.read()
-            val isCorrect = read.trim() == sample.output.trim()
+            val output = engine.run("python3 " + solution.path, sample.input, problem.time)
+            val isCorrect = output.trim() == sample.output.trim()
             grades.add(Grade(isCorrect))
         }
         return Grades(grades)
     }
-
-    private fun createProcess(): Process {
-        return Runtime.getRuntime().exec("python3 ${solution.path}")
-    }
-}
-
-private fun Process.write(input: String) {
-    outputStream.write(input.toByteArray())
-    outputStream.flush()
-    outputStream.close()
-}
-
-private fun Process.read(): String {
-    return String(inputStream.readAllBytes())
 }
