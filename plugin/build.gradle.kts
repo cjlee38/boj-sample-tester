@@ -21,6 +21,7 @@ intellij {
 
 dependencies {
     implementation(project(":core"))
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
 }
 
 tasks {
@@ -49,10 +50,14 @@ tasks {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
     runIde {
         autoReloadPlugins.set(true)
     }
 }
 
-tasks.register("prepareKotlinBuildScriptModel"){}
+tasks.register("prepareKotlinBuildScriptModel") {}
 

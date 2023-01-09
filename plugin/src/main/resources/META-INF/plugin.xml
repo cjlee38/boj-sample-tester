@@ -30,7 +30,7 @@
     </extensions>
 
     <actions>
-        <action id="BojSampleTester.executor" class="io.github.cjlee38.plugin.ExecutionAction" text="executor">
+        <action id="BojSampleTester.boj-sample-tester" class="io.github.cjlee38.plugin.ExecutionAction" text="boj-sample-tester">
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt Y"/>
         </action>
     </actions>
