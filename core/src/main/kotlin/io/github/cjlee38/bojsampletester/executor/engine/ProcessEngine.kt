@@ -1,14 +1,10 @@
 package io.github.cjlee38.bojsampletester.executor.engine
 
-import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
-
-private val log = KotlinLogging.logger {}
 
 class ProcessEngine {
 
     fun run(command: String, input: String, timeout: Long = 1000L): String {
-        log.trace { "process command : $command, input : $input, timeout: $timeout" }
         val process = createProcess(command)
         process.write(input)
         val isExited = process.waitFor(timeout, TimeUnit.MILLISECONDS)
