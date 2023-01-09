@@ -1,9 +1,9 @@
 package io.github.cjlee38.bojsampletester.executor
 
-import io.github.cjlee38.bojsampletester.Grade
-import io.github.cjlee38.bojsampletester.Grades
-import io.github.cjlee38.bojsampletester.Problem
-import io.github.cjlee38.bojsampletester.Solution
+import io.github.cjlee38.bojsampletester.data.Grade
+import io.github.cjlee38.bojsampletester.data.Grades
+import io.github.cjlee38.bojsampletester.data.Problem
+import io.github.cjlee38.bojsampletester.data.Solution
 import io.github.cjlee38.bojsampletester.executor.engine.ProcessEngine
 
 class JavaExecutor(private val solution: Solution) : Executor {

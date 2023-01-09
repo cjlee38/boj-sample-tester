@@ -1,8 +1,8 @@
 package io.github.cjlee38.bojsampletester.executor
 
-import io.github.cjlee38.bojsampletester.Problem
-import io.github.cjlee38.bojsampletester.Sample
-import io.github.cjlee38.bojsampletester.Solution
+import io.github.cjlee38.bojsampletester.data.Problem
+import io.github.cjlee38.bojsampletester.data.Sample
+import io.github.cjlee38.bojsampletester.data.Solution
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forAll
 import io.kotest.matchers.booleans.shouldBeTrue

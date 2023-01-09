@@ -10,7 +10,7 @@ import com.intellij.openapi.wm.RegisterToolWindowTask
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowManager
 import io.github.cjlee38.bojsampletester.SampleTester
-import io.github.cjlee38.bojsampletester.Solution
+import io.github.cjlee38.bojsampletester.data.Solution
 import javax.swing.JTextArea
 
 private const val id = "boj-sample-tester"
