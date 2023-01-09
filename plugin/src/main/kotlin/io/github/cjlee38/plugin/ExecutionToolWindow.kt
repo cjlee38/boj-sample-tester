@@ -51,7 +51,7 @@ class ExecutionToolWindow(private val project: Project) {
                     grade.input,
                     grade.expectedOutput,
                     grade.actualOutput,
-                    grade.isCorrect
+                    if (grade.isCorrect) "✅" else "❌"
                 )
             )
         }
