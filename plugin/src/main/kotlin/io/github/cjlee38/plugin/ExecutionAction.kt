@@ -33,6 +33,7 @@ class ExecutionAction : AnAction() {
             .createComponentPopupBuilder(JTextArea(grades.toString()), null)
             .createPopup()
         popup.showInFocusCenter()
+        getOrRegisterToolWindow(actionEvent)
     }
 
     // todo : upgrade to tool window
