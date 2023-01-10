@@ -17,9 +17,9 @@ class PythonExecutor(private val solution: Solution) : Executor {
             .map {
                 val run = engine.run(it.input)
                 val gradeStatus = if (run.status == EngineStatus.FINISHED) {
-                    GradeStatus.FAILED
-                } else {
                     GradeStatus.SUCCEEDED
+                } else {
+                    GradeStatus.FAILED
                 }
                 Grade(gradeStatus, it.input, it.output, run.output)
             }.let { Grades(it) }

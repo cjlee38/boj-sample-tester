@@ -1,11 +1,14 @@
 package io.github.cjlee38.bojsampletester.executor
 
 import createProblem
+import io.github.cjlee38.bojsampletester.data.GradeStatus
 import io.github.cjlee38.bojsampletester.data.Sample
 import io.github.cjlee38.bojsampletester.data.Solution
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forAll
+import io.kotest.inspectors.shouldForAll
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 import solutions.java.EmptySolution
 import solutions.java.ExceptionSolution
 import solutions.java.NormalSolution
@@ -36,16 +39,18 @@ class JavaExecutorTest : StringSpec({
         executor.execute(createProblem())
     }
 
-    "catch exception" {
+    "return grade with fail on exception caught" {
         val path = ExceptionSolution().javaClass.simpleName.formatJavaPath()
         val executor = JavaExecutor(Solution(path, ""))
-        executor.execute(createProblem())
+        val grades = executor.execute(createProblem())
+        grades.grades.shouldForAll { it.gradeStatus shouldBe GradeStatus.FAILED }
     }
 
-    "catch stackoverflow error" {
+    "return grade with fail on error caught" {
         val path = StackoverflowErrorSolution().javaClass.simpleName.formatJavaPath()
         val executor = JavaExecutor(Solution(path, ""))
-        executor.execute(createProblem())
+        val grades = executor.execute(createProblem())
+        grades.grades.shouldForAll { it.gradeStatus shouldBe GradeStatus.FAILED }
     }
 })
 
