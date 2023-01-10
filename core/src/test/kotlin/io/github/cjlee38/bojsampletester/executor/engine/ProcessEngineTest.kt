@@ -3,33 +3,39 @@ package io.github.cjlee38.bojsampletester.executor.engine
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 
 private const val BASE_PATH = "src/test/java/solutions/python/"
 
 class ProcessEngineTest : StringSpec({
 
-    val engine = ProcessEngine()
-
     "run process" {
-        val output = engine.run(ProcessCommand.PYTHON, BASE_PATH + "normal.py")
-        output.shouldNotBeNull()
+        val engine = ProcessEngine(ProcessCommand.PYTHON, BASE_PATH + "normal.py")
+        val result = engine.run("")
+        result.shouldNotBeNull()
     }
 
     "throw if undefined file" {
         shouldThrow<IllegalArgumentException> {
-            engine.run(ProcessCommand.PYTHON, "undefined.py")
+            ProcessEngine(ProcessCommand.PYTHON, "undefined.py")
         }
     }
 
-    "throw if timeout" {
-        shouldThrow<IllegalStateException> {
-            engine.run(ProcessCommand.PYTHON, BASE_PATH + "timeout.py", timeout = 1000L)
-        }
+    "status should be TIMEOUT if timeout" {
+        val engine = ProcessEngine(ProcessCommand.PYTHON, BASE_PATH + "timeout.py")
+        val result = engine.run("")
+        result.status shouldBe EngineStatus.TIMEOUT
     }
 
-    "throw if an exception occurs" {
-        shouldThrow<IllegalArgumentException> {
-            engine.run(ProcessCommand.PYTHON, BASE_PATH + "exception.py")
-        }
+    "status should be EXCEPTION if an exception occurs" {
+        val engine = ProcessEngine(ProcessCommand.PYTHON, BASE_PATH + "exception.py")
+        val result = engine.run("")
+        result.status shouldBe EngineStatus.EXCEPTION
+    }
+
+    "status should be ERROR if an error occurs" {
+        val engine = ProcessEngine(ProcessCommand.PYTHON, BASE_PATH + "error.py")
+        val result = engine.run("")
+        result.status shouldBe EngineStatus.ERROR
     }
 })

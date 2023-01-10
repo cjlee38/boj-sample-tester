@@ -4,20 +4,36 @@ import java.nio.file.Files
 import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
 
-class ProcessEngine {
+class ProcessEngine(
+    private val command: ProcessCommand,
+    private val path: String,
+    private val timeout: Long = 2000L
+) {
+    init {
+        require(Files.exists(Path(path))) { "Invalid path given : $path" }
+    }
 
-    fun run(command: ProcessCommand, path: String, input: String = "", timeout: Long = 1000L): String {
+    fun run(input: String): EngineResult {
         val process = createProcess(command, path)
         process.write(input)
-        process.waitOrThrow(timeout)
-        process.throwOnError()
-        return process.read()
+        val isExited = process.waitFor(timeout, TimeUnit.MILLISECONDS)
+        if (!isExited) {
+            return EngineResult(EngineStatus.TIMEOUT, "timeout")
+        }
+        return if (process.exitValue() != 0) {
+            val output = String(process.errorStream.readAllBytes())
+            if (output.contains("error")) {
+                EngineResult(EngineStatus.ERROR, output)
+            } else {
+                EngineResult(EngineStatus.EXCEPTION, output)
+            }
+        } else {
+            val output = String(process.inputStream.readAllBytes())
+            EngineResult(EngineStatus.FINISHED, output)
+        }
     }
 
     private fun createProcess(command: ProcessCommand, path: String): Process {
-        if (!Files.exists(Path(path))) {
-            throw IllegalArgumentException("Invalid path given : $path")
-        }
         return Runtime.getRuntime().exec("${command.command} $path")
     }
 
@@ -26,23 +42,7 @@ class ProcessEngine {
         outputStream.flush()
         outputStream.close()
     }
-
-    private fun Process.waitOrThrow(timeout: Long) {
-        val isExited = waitFor(timeout, TimeUnit.MILLISECONDS)
-        if (!isExited) {
-            throw IllegalStateException("Timeout Failure $timeout")
-        }
-    }
-
-    private fun Process.throwOnError() {
-        if (exitValue() != 0) {
-            throw IllegalArgumentException("fails on process execution : ${exitValue()} ${String(errorStream.readAllBytes())}")
-        }
-    }
-
-    private fun Process.read(): String {
-        return String(inputStream.readAllBytes())
-    }
 }
+
 
 

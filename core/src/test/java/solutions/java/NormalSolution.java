@@ -1,8 +1,8 @@
-package solutions;
+package solutions.java;
 
 import java.util.Scanner;
 
-public class JavaSolution {
+public class NormalSolution {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
