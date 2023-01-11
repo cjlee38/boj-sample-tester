@@ -1,13 +1,13 @@
 package io.github.cjlee38.plugin
 
-import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
 import io.github.cjlee38.bojsampletester.SampleTester
 import io.github.cjlee38.bojsampletester.data.Grades
+import io.github.cjlee38.bojsampletester.data.Sample
 import io.github.cjlee38.bojsampletester.data.Solution
-import java.awt.event.ActionEvent
+import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JTable
@@ -16,29 +16,37 @@ import javax.swing.table.DefaultTableModel
 
 class ExecutionToolWindow(private val project: Project) {
     lateinit var panel: JPanel
-    private lateinit var table: JTable
-    private lateinit var textField: JTextField
-    private lateinit var button: JButton
-    private lateinit var tableModel: DefaultTableModel
+    private lateinit var problemNumberField: JTextField
+    private lateinit var gradeButton: JButton
+    private lateinit var loadButton: JButton
+    private lateinit var addRowButton: JButton
+    private lateinit var gradesTable: JTable
+    private lateinit var tableModel: GradeTableModel
 
     init {
-        button.addActionListener { e: ActionEvent? -> execute() }
-        if (table.model is DefaultTableModel) {
-            tableModel = table.model as DefaultTableModel
-            tableModel.setColumnIdentifiers(arrayOf("input", "expected", "actual", "isCorrect"))
-        }
+        gradeButton.addActionListener { execute() }
+        loadButton.addActionListener { load() }
+        addRowButton.addActionListener { addRow() }
+
+        tableModel = GradeTableModel(gradesTable.model as DefaultTableModel)
+        gradesTable.model = tableModel
         draw(Grades(emptyList()))
     }
 
+    private fun load() {
+        TODO("Not yet implemented")
+        val client = JsoupRequestClient()
+        val (problem, samples) = client.request(problemNumberField.text)
+
+    }
+
     private fun execute() {
-        println("ExecutionToolWindow.execute")
         try {
             val solution = requireSolution()
             val problemNumber = requireProblemNumber()
-            val grades = SampleTester().run(solution, problemNumber)
+            val grades = SampleTester().run(solution, problem)
             draw(grades)
         } catch (e: Exception) {
-            println("exception on ExecutionToolWindow.execute")
             e.printStackTrace()
         }
     }
@@ -63,10 +71,10 @@ class ExecutionToolWindow(private val project: Project) {
         val file = FileDocumentManager.getInstance().getFile(editor.document)
             ?: throw IllegalArgumentException("no document")
         val code = editor.document.text
-        return Solution(file.path, code) // todo : or canonical path ?
+        return Solution(file.path, code)
     }
 
-    private fun requireProblemNumber(): String {
-        return textField.text
+    private fun addRow() {
+        tableModel.addRow(arrayOf())
     }
 }
