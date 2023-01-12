@@ -1,53 +1,79 @@
 package io.github.cjlee38.plugin
 
-import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
 import io.github.cjlee38.bojsampletester.SampleTester
 import io.github.cjlee38.bojsampletester.data.Grades
+import io.github.cjlee38.bojsampletester.data.Problem
+import io.github.cjlee38.bojsampletester.data.Sample
 import io.github.cjlee38.bojsampletester.data.Solution
-import java.awt.event.ActionEvent
+import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
+import io.github.cjlee38.plugin.swing.TextAreaCellEditor
+import io.github.cjlee38.plugin.swing.TextAreaCellRenderer
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JTable
+import javax.swing.JTextArea
 import javax.swing.JTextField
 import javax.swing.table.DefaultTableModel
 
 class ExecutionToolWindow(private val project: Project) {
     lateinit var panel: JPanel
-    private lateinit var table: JTable
-    private lateinit var textField: JTextField
-    private lateinit var button: JButton
-    private lateinit var tableModel: DefaultTableModel
+    private lateinit var problemNumberField: JTextField
+    private lateinit var gradeButton: JButton
+    private lateinit var loadButton: JButton
+    private lateinit var addRowButton: JButton
+    private lateinit var clearButton: JButton
+    private lateinit var gradesTable: JTable
+
+    private var tableModel: GradeTableModel
+    private var problem: Problem = Problem()
 
     init {
-        button.addActionListener { e: ActionEvent? -> execute() }
-        if (table.model is DefaultTableModel) {
-            tableModel = table.model as DefaultTableModel
-            tableModel.setColumnIdentifiers(arrayOf("input", "expected", "actual", "isCorrect"))
-        }
+        gradeButton.addActionListener { execute() }
+        loadButton.addActionListener { load() }
+        addRowButton.addActionListener { addRow() }
+        clearButton.addActionListener { clear() }
+
+        tableModel = GradeTableModel(gradesTable.model as DefaultTableModel)
+        gradesTable.model = tableModel
+
+        val tableCellRenderer = TextAreaCellRenderer()
+        gradesTable.cellSelectionEnabled = true
+        gradesTable.rowSelectionAllowed = false
+        gradesTable.rowHeight = 100
+        gradesTable.setDefaultRenderer(Any::class.java, tableCellRenderer)
+        gradesTable.setDefaultEditor(Any::class.java, TextAreaCellEditor())
+
         draw(Grades(emptyList()))
     }
 
+    private fun load() {
+        require(problemNumberField.text.all { it.isDigit() })
+        val client = JsoupRequestClient()
+        problem = client.request(problemNumberField.text)
+        problem.samples.forEach { tableModel.addRow(listOf(it.input, it.output, "", "")) }
+    }
+
     private fun execute() {
-        println("ExecutionToolWindow.execute")
         try {
             val solution = requireSolution()
-            val problemNumber = requireProblemNumber()
-            val grades = SampleTester().run(solution, problemNumber)
+            val userSamples = tableModel.dataVector.map { Sample(it[0], it[1]) }
+            val gradingProblem = Problem(problem.number, problem.time, userSamples)
+            val grades = SampleTester().run(solution, gradingProblem)
             draw(grades)
         } catch (e: Exception) {
-            println("exception on ExecutionToolWindow.execute")
+            println(e)
             e.printStackTrace()
         }
     }
 
     private fun draw(grades: Grades) {
-        tableModel.rowCount = 0
+        clear()
         grades.grades.forEach { grade ->
             tableModel.addRow(
-                arrayOf(
+                listOf(
                     grade.input,
                     grade.expectedOutput,
                     grade.actualOutput,
@@ -63,10 +89,14 @@ class ExecutionToolWindow(private val project: Project) {
         val file = FileDocumentManager.getInstance().getFile(editor.document)
             ?: throw IllegalArgumentException("no document")
         val code = editor.document.text
-        return Solution(file.path, code) // todo : or canonical path ?
+        return Solution(file.path, code)
     }
 
-    private fun requireProblemNumber(): String {
-        return textField.text
+    private fun addRow() {
+        tableModel.addRow(listOf("", "", "", ""))
+    }
+
+    private fun clear() {
+        tableModel.rowCount = 0
     }
 }
