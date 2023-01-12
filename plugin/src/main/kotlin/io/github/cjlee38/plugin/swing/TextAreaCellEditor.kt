@@ -78,16 +78,16 @@ class TextAreaCellEditor : TableCellEditor {
 
     override fun shouldSelectCell(e: EventObject?): Boolean = true
     override fun stopCellEditing(): Boolean {
-        fireEditingStopped()
+        fireEditingOn { it.editingStopped(changeEvent) }
         return true
     }
-    override fun cancelCellEditing() = fireEditingCanceled()
+    override fun cancelCellEditing() = fireEditingOn { it.editingCanceled(changeEvent) }
     override fun addCellEditorListener(listener: CellEditorListener) =
         listenerList.add(CellEditorListener::class.java, listener)
     override fun removeCellEditorListener(listener: CellEditorListener) =
         listenerList.remove(CellEditorListener::class.java, listener)
 
-    private fun fireEditingStopped() {
+    private fun fireEditingOn(action: (CellEditorListener) -> Unit) {
         val listeners: Array<Any> = listenerList.listenerList
         var i = listeners.size - 2
         while (i >= 0) {
@@ -95,21 +95,7 @@ class TextAreaCellEditor : TableCellEditor {
                 if (changeEvent == null) {
                     changeEvent = ChangeEvent(this)
                 }
-                (listeners[i + 1] as CellEditorListener).editingStopped(changeEvent)
-            }
-            i -= 2
-        }
-    }
-
-    private fun fireEditingCanceled() {
-        val listeners: Array<Any> = listenerList.listenerList
-        var i = listeners.size - 2
-        while (i >= 0) {
-            if (listeners[i] === CellEditorListener::class.java) {
-                if (changeEvent == null) {
-                    changeEvent = ChangeEvent(this)
-                }
-                (listeners[i + 1] as CellEditorListener).editingCanceled(changeEvent)
+                action(listeners[i + 1] as CellEditorListener)
             }
             i -= 2
         }
