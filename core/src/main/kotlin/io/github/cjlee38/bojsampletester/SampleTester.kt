@@ -1,20 +1,16 @@
 package io.github.cjlee38.bojsampletester
 
 import io.github.cjlee38.bojsampletester.data.Grades
+import io.github.cjlee38.bojsampletester.data.Problem
 import io.github.cjlee38.bojsampletester.data.Solution
 import io.github.cjlee38.bojsampletester.executor.Executor
 import io.github.cjlee38.bojsampletester.executor.JavaExecutor
 import io.github.cjlee38.bojsampletester.executor.PythonExecutor
-import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
 
 class SampleTester {
-    fun run(solution: Solution, problemNumber: String): Grades {
-        val client = JsoupRequestClient()
-        val problem = client.request(problemNumber)
-
+    fun run(solution: Solution, problem: Problem): Grades {
         val executor = determineExecutor(solution)
-        val grades = executor.execute(problem)
-        return grades
+        return executor.execute(problem)
     }
 
     private fun determineExecutor(solution: Solution): Executor {

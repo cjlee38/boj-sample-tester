@@ -6,7 +6,7 @@ import com.intellij.openapi.wm.RegisterToolWindowTask
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowManager
 
-private const val id = "boj-sample-tester"
+private const val ID = "boj-sample-tester"
 
 class ExecutionAction : AnAction() {
 
@@ -15,9 +15,9 @@ class ExecutionAction : AnAction() {
     }
 
     private fun getOrRegisterToolWindow(actionEvent: AnActionEvent): ToolWindow {
-        return ToolWindowManager.getInstance(actionEvent.project!!).getToolWindow(id)
+        return ToolWindowManager.getInstance(actionEvent.project!!).getToolWindow(ID)
             ?: ToolWindowManager.getInstance(actionEvent.project!!).registerToolWindow(
-                RegisterToolWindowTask(id, contentFactory = MyToolWindowFactory())
+                RegisterToolWindowTask(ID, contentFactory = MyToolWindowFactory(), canCloseContent = false)
             )
     }
 }
