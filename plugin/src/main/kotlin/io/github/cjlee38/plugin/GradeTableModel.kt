@@ -20,10 +20,8 @@ class GradeTableModel(private val origin: DefaultTableModel) : TableModel by ori
     val dataVector: List<List<String>>
         get() = origin.dataVector.map { it.map { any -> any as String } }
     fun setRowCount(rowCount: Int) = run { origin.rowCount = rowCount }
-    fun addRow(row: Array<String>) {
-        println("GradeTableModel.addRow")
-        origin.addRow(row)
-        origin.dataVector
+    fun addRow(row: List<String>) {
+        origin.addRow(row.toTypedArray())
     }
 
     companion object MetaData {
