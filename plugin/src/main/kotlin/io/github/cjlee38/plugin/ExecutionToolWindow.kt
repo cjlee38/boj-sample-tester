@@ -39,26 +39,18 @@ class ExecutionToolWindow(private val project: Project) {
         tableModel = GradeTableModel(gradesTable.model as DefaultTableModel)
         gradesTable.model = tableModel
 
-
-        val textArea = JTextArea()
-        textArea.lineWrap = true
-        textArea.wrapStyleWord = true
         val tableCellRenderer = TextAreaCellRenderer()
-//        val tableCellRenderer = TableCellRenderer { table, value, isSelected, hasFocus, row, column ->
-//            println(value.toString())
-//
-//            textArea.text = value.toString() + "\n" + value.toString()
-//            textArea
-//        }
+        gradesTable.cellSelectionEnabled = true
+        gradesTable.rowSelectionAllowed = false
         gradesTable.rowHeight = 100
         gradesTable.setDefaultRenderer(Any::class.java, tableCellRenderer)
         gradesTable.setDefaultEditor(Any::class.java, TextAreaCellEditor())
-        println("cell editor " + gradesTable.cellEditor)
 
         draw(Grades(emptyList()))
     }
 
     private fun load() {
+        require(problemNumberField.text.all { it.isDigit() })
         val client = JsoupRequestClient()
         problem = client.request(problemNumberField.text)
         problem.samples.forEach { tableModel.addRow(listOf(it.input, it.output, "", "")) }
@@ -72,6 +64,7 @@ class ExecutionToolWindow(private val project: Project) {
             val grades = SampleTester().run(solution, gradingProblem)
             draw(grades)
         } catch (e: Exception) {
+            println(e)
             e.printStackTrace()
         }
     }

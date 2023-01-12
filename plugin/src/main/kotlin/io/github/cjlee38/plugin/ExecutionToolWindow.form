@@ -18,7 +18,7 @@
           <component id="f5356" class="javax.swing.JTable" binding="gradesTable">
             <constraints/>
             <properties>
-              <font/>
+              <font size="12"/>
             </properties>
           </component>
         </children>

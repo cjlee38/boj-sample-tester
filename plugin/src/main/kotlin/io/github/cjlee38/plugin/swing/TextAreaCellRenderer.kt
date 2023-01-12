@@ -29,7 +29,6 @@ class TextAreaCellRenderer : TableCellRenderer {
             textArea.foreground = table.foreground
             textArea.background = table.background
         }
-//        textArea.setFont(table.getFont())
         textArea.text = value?.toString().orEmpty()
         return textArea
     }
