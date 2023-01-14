@@ -19,11 +19,15 @@ class SqliteProblemRepository(private val jdbcTemplate: JdbcTemplate) : ProblemR
     }
 
     override fun findByNumber(number: String): Problem? {
-        val samples = jdbcTemplate.query("select * from sample where problem_number = ?", number) { rs, _ ->
-            Sample(rs.getString("input"), rs.getString("output"))
-        }
-        return jdbcTemplate.queryForObject("select * from problem where number = ?", number) { rs, _ ->
-            Problem(number, rs.getLong("timeout"), samples)
+        return try {
+            val samples = jdbcTemplate.query("select * from sample where problem_number = ?", number) { rs, _ ->
+                Sample(rs.getString("input"), rs.getString("output"))
+            }
+            jdbcTemplate.queryForObject("select * from problem where number = ?", number) { rs, _ ->
+                Problem(number, rs.getLong("timeout"), samples)
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 

@@ -11,7 +11,14 @@ class CompositeProblemRepository(
     }
 
     override fun findByNumber(number: String): Problem? {
-        return sqliteProblemRepository.findByNumber(number) ?: restProblemRepository.findByNumber(number)
+        val problem = sqliteProblemRepository.findByNumber(number)
+        return if (problem != null) {
+            problem
+        } else {
+            val findByNumber1 = restProblemRepository.getByNumber(number)
+            save(findByNumber1)
+            findByNumber1
+        }
     }
 
     override fun getByNumber(number: String): Problem {
