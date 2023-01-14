@@ -8,17 +8,16 @@ import io.github.cjlee38.bojsampletester.data.Grades
 import io.github.cjlee38.bojsampletester.data.Problem
 import io.github.cjlee38.bojsampletester.data.Sample
 import io.github.cjlee38.bojsampletester.data.Solution
-import io.github.cjlee38.bojsampletester.request.JsoupRequestClient
+import io.github.cjlee38.bojsampletester.repository.ProblemRepository
 import io.github.cjlee38.plugin.swing.TextAreaCellEditor
 import io.github.cjlee38.plugin.swing.TextAreaCellRenderer
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JTable
-import javax.swing.JTextArea
 import javax.swing.JTextField
 import javax.swing.table.DefaultTableModel
 
-class ExecutionToolWindow(private val project: Project) {
+class ExecutionToolWindow(private val project: Project, private val problemRepository: ProblemRepository) {
     lateinit var panel: JPanel
     private lateinit var problemNumberField: JTextField
     private lateinit var gradeButton: JButton
@@ -50,9 +49,9 @@ class ExecutionToolWindow(private val project: Project) {
     }
 
     private fun load() {
+        require(problemNumberField.text.isNotBlank())
         require(problemNumberField.text.all { it.isDigit() })
-        val client = JsoupRequestClient()
-        problem = client.request(problemNumberField.text)
+        problem = problemRepository.getByNumber(problemNumberField.text)
         problem.samples.forEach { tableModel.addRow(listOf(it.input, it.output, "", "")) }
     }
 
