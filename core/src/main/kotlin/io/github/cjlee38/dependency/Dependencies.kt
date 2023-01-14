@@ -11,9 +11,9 @@ import org.sqlite.SQLiteDataSource
 import javax.sql.DataSource
 
 // todo: utilize pico container ?
-fun getProblemRepository(): ProblemRepository {
+fun getProblemRepository(basePath: String): ProblemRepository {
     return CompositeProblemRepository(
-        SqliteProblemRepository(JdbcTemplate(getDataSource())),
+        SqliteProblemRepository(JdbcTemplate(getDataSource(basePath))),
         RestProblemRepository(getRequestClient())
     )
 }
@@ -22,8 +22,9 @@ fun getRequestClient(): RequestClient {
     return JsoupRequestClient()
 }
 
-fun getDataSource(): DataSource {
+fun getDataSource(basePath: String): DataSource {
     val dataSource = SQLiteDataSource()
-    dataSource.url = "jdbc:sqlite:sqlite.db"
+    println("basePath = ${basePath}")
+    dataSource.url = "jdbc:sqlite:${basePath}/boj.db"
     return dataSource
 }
