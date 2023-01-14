@@ -2,6 +2,7 @@ package io.github.cjlee38.persistence
 
 import io.github.cjlee38.bojsampletester.data.Problem
 import io.github.cjlee38.bojsampletester.data.Sample
+import io.github.cjlee38.bojsampletester.repository.SqliteProblemRepository
 import io.github.cjlee38.persistence.jdbc.JdbcTemplate
 import io.kotest.core.spec.style.StringSpec
 import org.sqlite.SQLiteConfig
